@@ -28,7 +28,6 @@ class FileStorage:
             if cls is None or obj.__class__.__name__ == cls:
                 cls_dict[key] = obj.to_dict()
         return cls_dict
-        
         return FileStorage.__objects
 
     def new(self, obj):
