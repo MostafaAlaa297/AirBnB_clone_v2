@@ -6,6 +6,7 @@ Console module for the Airbnb project
 """
 
 import cmd
+import re
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -33,12 +34,32 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """Creates a new instance of the specified class"""
         args = arg.split()
+        instance_dict = {}
         if not args:
             print("** class name missing **")
         elif args[0] not in classes:
             print("** class doesn't exist **")
         else:
             new_instance = classes[args[0]]()
+            for argument in args[1:]:
+                splitted = argument.split("=")
+             
+                if len(splitted) == 2:
+                    key = splitted[0]
+                    val = splitted[1]
+                    if val.startswith('"') and val.endswith('"'):
+                        val_spaced = val.replace("_", " ")
+                        val_final = "\"" + val_spaced.replace("\"", "\\\"") + "\""
+                        print(val_spaced)
+                        setattr(new_instance, key, val_spaced)
+                        print(key)
+                    elif re.search("^-?\d+\.{1}\d+$", val):
+                        setattr(new_instance, key, val)
+                    elif re.search("^-?\d+$", val):
+                        setattr(new_instance, key, val)
+                else:
+                    pass
+
             new_instance.save()
             print(new_instance.id)
 
