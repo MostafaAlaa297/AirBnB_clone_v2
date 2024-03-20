@@ -21,8 +21,14 @@ class FileStorage:
     __objects = {
     }
 
-    def all(self):
+    def all(self, cls=None):
         """Returns the dictionary __objects"""
+        cls_dict = {}
+        for key, obj in FileStorage.__objects.items():
+            if cls is None or obj.__class__.__name__ == cls:
+                cls_dict[key] = obj.to_dict()
+        return cls_dict
+        
         return FileStorage.__objects
 
     def new(self, obj):
@@ -50,6 +56,12 @@ class FileStorage:
                     FileStorage.__objects[key] = obj
         except FileNotFoundError:
             pass
+    def delete(self, obj=None):
+        if not obj:
+            pass
+        for key, val in FileStorage.__objects.items():
+            if val == obj:
+                FileStorage.__objects.pop("key")
 
 
 storage = FileStorage()
