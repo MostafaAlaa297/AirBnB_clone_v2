@@ -56,7 +56,9 @@ class FileStorage:
                     FileStorage.__objects[key] = obj
         except FileNotFoundError:
             pass
+
     def delete(self, obj=None):
+        """Deletes an object"""
         if not obj:
             pass
         for key, val in FileStorage.__objects.items():
