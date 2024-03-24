@@ -4,7 +4,6 @@
 Package initializer
 ===================
 """
-from models.engine.file_storage import storage
 import os
 
 storage_type = os.getenv('HBNB_TYPE_STORAGE')

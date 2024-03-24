@@ -7,8 +7,6 @@ State module
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models.engine.filestorage import storage
-from models import City
 
 
 class State(BaseModel, Base):
@@ -22,7 +20,9 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
-        """Returns the list of city instances 
-        with state_id equals to current State.id"""
-        city_object = storage.all(City)
-        return [city for city in city_object.values() if city.state_id == self.id]
+        if "HBNB_TYPE_STORAGE" == 'file':
+            from models import City
+            """Returns the list of city instances 
+            with state_id equals to current State.id"""
+            city_object = storage.all(City)
+            return [city for city in city_object.values() if city.state_id == self.id]

@@ -37,18 +37,21 @@ class DBStorage:
         
     def all(self, cls=None):
         """Return all data"""
-        all_classes = [User, State, Place, City, Amenity, Review]
+        all_classes = [State, City]
         cls_dict = {}
         if cls is None:
             for entry in all_classes:
-                for record in self.__session.query(cls).all()
-                    key = "{}.{}".format(cls.__name__, record.id)
-                    cls[key] = record
+                for record in self.__session.query(entry).all():
+                    print(record)
+                    key = "{}.{}".format(record.__class__.__name__, record.id)
+                    cls_dict[key] = record
         else:
             for record in self.__session.query(cls).all():
-                key = "{}.{}".format(cls.__name__, record.id)
-                cls[key] = record
+                print(record)
+                key = "{}.{}".format(record.__class__.__name__, record.id)
+                cls_dict[key] = record
         return cls_dict
+
     def new(self, obj):
         """Add a new record"""
         if obj:
