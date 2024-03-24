@@ -25,10 +25,13 @@ class FileStorage:
         """Returns the dictionary __objects"""
         cls_dict = {}
         for key, obj in FileStorage.__objects.items():
-            if cls is None or obj.__class__.__name__ == cls:
+            if cls is None:
+                return FileStorage.__objects
+            elif obj.__class__.__name__ == cls:
                 cls_dict[key] = obj.to_dict()
-        return cls_dict
-        return FileStorage.__objects
+                return cls_dict
+            else:
+                pass
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id"""
@@ -63,7 +66,6 @@ class FileStorage:
         for key, val in FileStorage.__objects.items():
             if val == obj:
                 FileStorage.__objects.pop("key")
-
 
 storage = FileStorage()
 storage.reload()
