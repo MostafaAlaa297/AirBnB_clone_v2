@@ -10,6 +10,7 @@ import uuid
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+import models
 
 Base = declarative_base()
 
@@ -40,7 +41,6 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.now()
             from models import storage
-
     def __str__(self):
         """
         Returns info about the model
@@ -54,9 +54,8 @@ class BaseModel:
         Updates the time
         """
         self.updated_at = datetime.now()
-        from models import storage
-        storage.new(self)
-        storage.save()
+        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         """

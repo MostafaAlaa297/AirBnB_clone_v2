@@ -42,7 +42,7 @@ class DBStorage:
         if cls is None:
             for entry in all_classes:
                 for record in self.__session.query(entry).all():
-                    print(record)
+                    #print(record)
                     key = "{}.{}".format(record.__class__.__name__, record.id)
                     cls_dict[key] = record
         else:

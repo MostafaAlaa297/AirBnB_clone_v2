@@ -43,23 +43,26 @@ class HBNBCommand(cmd.Cmd):
             new_instance = classes[args[0]]()
             for argument in args[1:]:
                 splitted = argument.split("=")
-             
                 if len(splitted) == 2:
                     key = splitted[0]
                     val = splitted[1]
                     if val.startswith('"') and val.endswith('"'):
                         val_spaced = val.replace("_", " ")
-                        val_final = "\"" + val_spaced.replace("\"", "\\\"") + "\""
-                        print(val_spaced)
-                        setattr(new_instance, key, val_spaced)
-                        print(key)
+                        val_final = val_spaced.replace("\"", "")
+                        print(val_spaced + " Spaced value " + val)
+                        #print(val_final + "Final value")
+                        setattr(new_instance, key, val_final)
                     elif re.search("^-?\d+\.{1}\d+$", val):
+                        val = float(val)
+                        print("float is " + str(val))
                         setattr(new_instance, key, val)
                     elif re.search("^-?\d+$", val):
+                        val = int(val)
                         setattr(new_instance, key, val)
+                        print("int is " + str(val))
                 else:
                     pass
-
+                
             new_instance.save()
             print(new_instance.id)
 
