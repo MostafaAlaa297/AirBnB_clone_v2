@@ -16,9 +16,10 @@ def do_pack():
         now = datetime.now()
         date_time = now.strftime("%Y%m%d%H%M%S")
         file_name = "versions/web_static_" + date_time + ".tgz"
+        web_static_path = os.path.abspath("web_static")
 
 
-        local("tar -cvzf {} web_static".format(file_name))
+        local("tar -cvzf {} {}".format(file_name, web_static_path))
 
         print("web_static packed {} -> {}Bytes".format(file_name, os.path.getsize(file_name)))
 
