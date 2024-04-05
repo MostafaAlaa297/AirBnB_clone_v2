@@ -29,8 +29,8 @@ echo 'server {
 	listen 80 default_server;
 	listen [::]:80;
 	
-	location /data/web_static/current/ {
-		alias hbnb_static;
+	location  /hbnb_static/ {
+		alias /data/web_static/current/;
 
 	}
 }' > /etc/nginx/sites-available/default
