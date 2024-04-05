@@ -7,6 +7,7 @@ from datetime import datetime
 pack web stack
 """
 
+
 def do_pack():
     """Generate tgz archive"""
 
@@ -17,9 +18,8 @@ def do_pack():
     file_name = "versions/web_static_{}.tgz".format(date_time)
 
     result = local("tar -cvzf {} web_static".format(file_name))
-        
+
     if result.failed:
         return None
     else:
         return file_name
-    
