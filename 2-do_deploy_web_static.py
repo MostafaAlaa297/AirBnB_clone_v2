@@ -19,7 +19,7 @@ def do_deploy(archive_path):
         archive_filename = os.path.basename(archive_path)
         split_no_ext = os.path.split(archive_filename)
         remote_tmp_path = '/tmp/' + archive_filename
-        remote_extract_path = '/data/web_static/releases/' + archive_no_ext
+        remote_extract_path = '/data/web_static/releases/' + split_no_ext[0]
 
         # Upload archive to tmp
         put(archive_path, remote_tmp_path)
