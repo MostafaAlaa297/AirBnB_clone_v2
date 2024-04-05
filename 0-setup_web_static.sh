@@ -4,51 +4,10 @@ sudo apt update
 sudo apt install -y nginx
 
 # Create dir if not exists
-data='data'
-if [[ ! -e $data ]];then
-	mkdir $data
+mkdir -p /data/web_static/releases/test
+mkdir -p /data/web_static/shared/test
 
-elif [[ -d $data ]];then
-	echo "$data already exists but is not a directory" 1>&2
-fi
-
-static='/data/web_static/'
-if [[ ! -e $static ]];then
-        mkdir "$static"
-
-
-elif [[ -d $static ]];then
-        echo "$static already exists but is not a directory" 1>&2
-fi
-
-releases='/data/web_static/releases/'
-if [[ ! -e $releases ]];then
-        mkdir $releases
-
-
-elif [[ -d $releases ]];then
-        echo "$releases already exists but is not a directory" 1>&2
-fi
-
-shared='/data/web_static/shared/'
-if [[ ! -e $shared ]];then
-        mkdir $shared
-
-
-elif [[ -d $shared ]];then
-        echo "$shared already exists but is not a directory" 1>&2
-fi
-
-test_dir='/data/web_static/shared/test/'
-if [[ ! -e $test_dir ]];then
-        mkdir $test_dir
-
-
-elif [[ -d $test_dir ]];then
-        echo "$test_dir already exists but is not a directory" 1>&2
-fi
-
-cat << EOF > "$test_dir/index.html"
+cat << EOF > /data/web_static/releases/test/index.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,11 +18,8 @@ cat << EOF > "$test_dir/index.html"
 </html>
 EOF
 
-current='/data/web_static/current'
-if [[ -L $current ]];then
-	rm  $current
-fi
-ln -s $test_dir $current
+# Create symbolic link
+ln -sf /data/web_static/releases/test /data/web_static/current
 
 # Change ownership of data dir to ubuntu user and group
 sudo chown -R ubuntu:ubuntu /data/
