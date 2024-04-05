@@ -11,6 +11,7 @@ deploy web stack
 env.hosts = ['54.197.130.4', '52.91.160.210']
 env.user = 'ubuntu'
 
+
 def do_deploy(archive_path):
     """Distributes an archive to web servers"""
     if not os.path.exists(archive_path):
