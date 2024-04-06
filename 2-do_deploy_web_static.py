@@ -13,46 +13,52 @@ env.user = 'ubuntu'
 
 def do_deploy(archive_path):
     """Distributes an archive to web servers"""
-    if not os.path.exists(archive_path):
+    if not os.path.isfile(archive_path):
         return False
     try:
-        archive_filename = os.path.basename(archive_path)
-        split_no_ext = os.path.split(archive_filename)
-        remote_tmp_path = '/tmp/' + archive_filename
-        remote_extract_path = '/data/web_static/releases/' + split_no_ext[0]
+        filename = archive_path.split("/")[-1]
+        name = filename.split(".")[0]
 
         # Upload archive to tmp
-        put(archive_path, remote_tmp_path)
+        if put(archive_path, "/tmp/{}".format(filename)).failed is True:
+            return False
 
         # Create directory for extraction
-        run('mkdir -p {}'.format(remote_extract_path))
+        if run('mkdir -p {}'.format("/data/web_static/releases/{}").format(name)).failed is True:
+            return False
 
         # Uncompress the archive
-        run(
-                'tar -xzf {} -C {}'.format(
-                    remote_tmp_path, remote_extract_path
-                    ))
+        if run(
+                'tar -xzf /tmp/{} -C /data/web_static/releases/{}'.format(
+                    filename, name
+                    )).failed is True:
+            return False
 
         # Remove the archive
-        run('rm {}'.format(remote_tmp_path))
+        if run('rm {}'.format(filename)).failed is True:
+            return False
 
         # Move contents of extracted folder to release folder
-        run(
-                'mv {}/web_static/* {}'.format(
-                    remote_extract_path, remote_extract_path
-                    ))
+        if run(
+                'mv /data/web_static/releases/{}/web_static/* /data/web_static/releases/{}'.format(
+                    name, name
+                    )).failed is True:
+            return False
 
         # remove empty web static folder
-        run('rm -rf {}/web_static'.format(remote_extract_path))
+        if run('rm -rf /data/web_static/releases/{}/web_static'.format(name)).failed is True:
+            return False
 
         # Remove current symlink
-        run('rm -rf /data/web_static/current')
+        if run('rm -rf /data/web_static/current').failed is True:
+            return False
 
         # Create new symlink
-        run(
-                'ln -s {} /data/web_static/current'.format(
-                    remote_extract_path
-                    ))
+        if run(
+                'ln -s /data/web_static/releases/{} /data/web_static/current'.format(
+                    name
+                    )).failed is True:
+            return False
 
         print("New version deployed")
         return True
