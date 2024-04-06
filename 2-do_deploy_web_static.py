@@ -8,7 +8,6 @@ deploy web stack
 """
 
 env.hosts = ['54.197.130.4', '52.91.160.210']
-env.user = 'ubuntu'
 
 
 def do_deploy(archive_path):
@@ -18,19 +17,23 @@ def do_deploy(archive_path):
     try:
         filename = archive_path.split("/")[-1]
         name = filename.split(".")[0]
+        release_path = "/data/web_static/releases/"
 
         # Upload archive to tmp
-        if put(archive_path, "/tmp/{}".format(filename)).failed is True:
+        if put(
+                archive_path, "/tmp/{}".format(filename)).failed is True:
             return False
 
         # Create directory for extraction
-        if run('mkdir -p {}'.format("/data/web_static/releases/{}").format(name)).failed is True:
+        if run('mkdir -p {}'.format(
+            "{}/{}").format(
+                release_path, name)).failed is True:
             return False
 
         # Uncompress the archive
         if run(
-                'tar -xzf /tmp/{} -C /data/web_static/releases/{}'.format(
-                    filename, name
+                'tar -xzf /tmp/{} -C {}/{}'.format(
+                    filename, release_path, name
                     )).failed is True:
             return False
 
@@ -40,13 +43,15 @@ def do_deploy(archive_path):
 
         # Move contents of extracted folder to release folder
         if run(
-                'mv /data/web_static/releases/{}/web_static/* /data/web_static/releases/{}'.format(
-                    name, name
+                'mv {}/{}/web_static/* {}/{}'.format(
+                    release_path, name, release_path, name
                     )).failed is True:
             return False
 
         # remove empty web static folder
-        if run('rm -rf /data/web_static/releases/{}/web_static'.format(name)).failed is True:
+        if run(
+                'rm -rf {}/{}/web_static'.format(
+                    release_path, name)).failed is True:
             return False
 
         # Remove current symlink
@@ -55,8 +60,8 @@ def do_deploy(archive_path):
 
         # Create new symlink
         if run(
-                'ln -s /data/web_static/releases/{} /data/web_static/current'.format(
-                    name
+                'ln -s {}/{} /data/web_static/current'.format(
+                    release_path, name
                     )).failed is True:
             return False
 
