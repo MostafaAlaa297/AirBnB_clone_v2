@@ -24,6 +24,10 @@ def do_deploy(archive_path):
                 archive_path, "/tmp/{}".format(filename)).failed is True:
             return False
 
+        # Remove dir and achive name if exists
+        if run("rm -rf {}/{}".format(release_path, name)).failed is True:
+            return False
+
         # Create directory for extraction
         if run('mkdir -p {}'.format(
             "{}/{}").format(
@@ -38,7 +42,7 @@ def do_deploy(archive_path):
             return False
 
         # Remove the archive
-        if run('rm {}'.format(filename)).failed is True:
+        if run('rm /tmp/{}'.format(filename)).failed is True:
             return False
 
         # Move contents of extracted folder to release folder
@@ -60,7 +64,7 @@ def do_deploy(archive_path):
 
         # Create new symlink
         if run(
-                'ln -s {}/{} /data/web_static/current'.format(
+                'ln -s {}/{}/ /data/web_static/current'.format(
                     release_path, name
                     )).failed is True:
             return False
