@@ -31,6 +31,7 @@ echo 'server {
 	
 	location  /hbnb_static/ {
 		alias /data/web_static/current/;
+		index index.html index.htm index.nginx-debian.html;
 
 	}
 }' > /etc/nginx/sites-available/default
