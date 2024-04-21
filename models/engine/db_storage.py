@@ -20,7 +20,6 @@ PASSWORD = os.getenv('HBNB_MYSQL_PWD')
 HOST = os.getenv('HBNB_MYSQL_HOST')
 DATABASE = os.getenv('HBNB_MYSQL_DB')
 
-
 class DBStorage:
     """DBStorage class"""
     __engine = None
@@ -74,5 +73,5 @@ class DBStorage:
         self.__session = scoped_session(session_factory)
 
     def close(self):
-	"""call remove"""
-	self.__session.remove()
+        """call remove"""
+        self.__session.remove()
