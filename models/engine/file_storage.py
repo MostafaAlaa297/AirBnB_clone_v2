@@ -67,3 +67,8 @@ class FileStorage:
             if val == obj:
                 FileStorage.__objects.pop("key")
 
+    def close(self):
+	"""deserializes the obj"""
+	self.reload()
+
+
