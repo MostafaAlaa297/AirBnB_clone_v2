@@ -26,6 +26,8 @@ classes = {
     "Review": Review,
 }
 
+storage.reload()
+
 
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class"""
