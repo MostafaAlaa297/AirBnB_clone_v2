@@ -10,6 +10,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 from models.place import Place
+from sqlalchemy.ext.declarative import declarative_base
 
 """
 DBStorage Module
@@ -19,6 +20,9 @@ USER = os.getenv('HBNB_MYSQL_USER')
 PASSWORD = os.getenv('HBNB_MYSQL_PWD')
 HOST = os.getenv('HBNB_MYSQL_HOST')
 DATABASE = os.getenv('HBNB_MYSQL_DB')
+
+Base = declarative_base()
+
 
 class DBStorage:
     """DBStorage class"""
