@@ -12,7 +12,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 import models
 
-Base = declarative_base()
+if hasattr(models, "storage") and models.storage == "db":
+    Base = declarative_base()
+else:
+    Base = object
 
 
 class BaseModel:
