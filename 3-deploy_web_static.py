@@ -25,6 +25,7 @@ def do_pack():
     else:
         return file_name
 
+
 """
 deploy web stack
 """
@@ -98,11 +99,22 @@ def do_deploy(archive_path):
 
 def deploy():
     """
-    creates and distributes
+    Creates and distributes
     an archive to your web servers
     """
+    # Generate the archive once
     archive_path = do_pack()
     if not archive_path:
         return False
 
-    return do_deploy(archive_path)
+    # Deploy to the first server
+    env.host_string = env.hosts[0]
+    if not do_deploy(archive_path):
+        return False
+
+    # Deploy to the second server
+    env.host_string = env.hosts[1]
+    if not do_deploy(archive_path):
+        return False
+
+    return True
