@@ -105,6 +105,10 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """Print string representations of instances"""
         objects = storage.all()
+        print("START TEST")
+        state_obj = storage.all(City)
+        print(state_obj)
+        print("END TEST")
         obj_list = []
         if len(arg) == 0:
             for value in objects.values():

@@ -27,12 +27,11 @@ class FileStorage:
         for key, obj in FileStorage.__objects.items():
             if cls is None:
                 return FileStorage.__objects
-            elif obj.__class__.__name__ == cls:
-                cls_dict[key] = obj.to_dict()
-                return cls_dict
-            else:
-                pass
-
+            elif key.split('.')[0] == cls.__name__:
+                cls_dict[key] = str(obj)
+        
+        return cls_dict
+    
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id"""
         key = "{}.{}".format(type(obj).__name__, obj.id)
